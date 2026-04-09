@@ -1,101 +1,133 @@
-# ===============================
-#  IMPORT LIBRARIES
-# ===============================
+
+# ============================================
+# PRACTICE: STATISTICS IN ML (FULL WORKING CODE)
+# ============================================
+
+# STEP 1: IMPORT LIBRARIES
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 
-# ===============================
-#  LOAD DATA
-# ===============================
-df = pd.read_csv("data.csv")
 
-print("\n📊 DATA PREVIEW:")
+# STEP 2: LOAD DATA
+df = pd.read_csv("students_data.csv")
+
+print("First 5 rows:")
 print(df.head())
 
-# ===============================
-#  BASIC STATISTICS (Describe)
-# ===============================
-print("\n📈 STATISTICAL SUMMARY:")
+
+# STEP 3: BASIC INFO
+print("\nShape:", df.shape)
+print("\nColumns:", df.columns)
+
+print("\nInfo:")
+df.info()
+
+
+# STEP 4: CONVERT CATEGORICAL → NUMERICAL
+# gender: Male=0, Female=1
+df['gender'] = df['gender'].map({'Male': 0, 'Female': 1})
+
+
+# STEP 5: DESCRIPTIVE STATISTICS
+print("\nStatistical Summary:")
 print(df.describe())
 
-# ===============================
-#  CENTRAL TENDENCY
-# ===============================
-print("\n CENTRAL TENDENCY (Math Scores)")
-print("Mean:", df["Math"].mean())
-print("Median:", df["Math"].median())
-print("Mode:", df["Math"].mode()[0])
+print("\nMean:")
+print(df.mean())
 
-# ===============================
-#  DISPERSION
-# ===============================
-print("\n DISPERSION")
-print("Variance:", df["Math"].var())
-print("Standard Deviation:", df["Math"].std())
+print("\nMedian:")
+print(df.median())
 
-# ===============================
-#  WHY n-1 (Sample Variance)
-# ===============================
-n = len(df["Math"])
-sample_variance = df["Math"].var()
-population_variance = df["Math"].var(ddof=0)
+print("\nMode:")
+print(df.mode().iloc[0])
 
-print("\n VARIANCE COMPARISON")
-print("Sample Variance (n-1):", sample_variance)
-print("Population Variance (n):", population_variance)
 
-# ===============================
-#  VARIABLES & RANDOM VARIABLES
-# ===============================
-print("\n VARIABLES")
-print("Independent Variable: Hours_Study")
-print("Dependent Variable: Math")
+# STEP 6: MEASURE OF DISPERSION
+print("\nVariance:")
+print(df.var())
 
-# ===============================
-#  HISTOGRAM
-# ===============================
-plt.hist(df["Math"], bins=5)
-plt.title("Histogram of Math Scores")
-plt.xlabel("Marks")
-plt.ylabel("Frequency")
+print("\nStandard Deviation:")
+print(df.std())
+
+print("\nRange:")
+print(df.max() - df.min())
+
+
+# STEP 7: PERCENTILES & QUARTILES
+print("\nPercentiles:")
+print(df.quantile([0.25, 0.5, 0.75]))
+
+print("\n5 Number Summary:")
+print(df.describe().loc[['min','25%','50%','75%','max']])
+
+
+# STEP 8: MISSING VALUES
+print("\nMissing Values:")
+print(df.isnull().sum())
+
+
+# STEP 9: HISTOGRAM
+df.hist(figsize=(10,8))
+plt.suptitle("Histogram - Distribution")
 plt.show()
 
-# ===============================
-#  PERCENTILES & QUARTILES
-# ===============================
-print("\n QUARTILES")
-print("25%:", np.percentile(df["Math"], 25))
-print("50% (Median):", np.percentile(df["Math"], 50))
-print("75%:", np.percentile(df["Math"], 75))
 
-# ===============================
-#  5 NUMBER SUMMARY
-# ===============================
-print("\n 5 NUMBER SUMMARY")
-print("Min:", df["Math"].min())
-print("Q1:", df["Math"].quantile(0.25))
-print("Median:", df["Math"].median())
-print("Q3:", df["Math"].quantile(0.75))
-print("Max:", df["Math"].max())
+# STEP 10: BOXPLOT
+plt.figure(figsize=(10,6))
+sns.boxplot(data=df)
+plt.xticks(rotation=45)
+plt.title("Boxplot - Outliers")
+plt.show()
 
-# ===============================
-#  CORRELATION
-# ===============================
-print("\n CORRELATION MATRIX")
-print(df.corr())
 
-# ===============================
-#  COVARIANCE
-# ===============================
-print("\n COVARIANCE")
-print(df.cov())
+# STEP 11: CORRELATION
+correlation = df.corr()
 
-# ===============================
-# SCATTER PLOT (ML BASE)
-# ===============================
-plt.scatter(df["Hours_Study"], df["Math"])
-plt.xlabel("Hours Study")
-plt.ylabel("Math Score")
-plt.title("Study vs Score")
+print("\nCorrelation Matrix:")
+print(correlation)
+
+plt.figure(figsize=(10,6))
+sns.heatmap(correlation, annot=True)
+plt.title("Correlation Heatmap")
+plt.show()
+
+
+# STEP 12: COVARIANCE
+covariance = df.cov()
+
+print("\nCovariance Matrix:")
+print(covariance)
+
+
+# STEP 13: SKEWNESS & KURTOSIS
+print("\nSkewness:")
+print(df.skew())
+
+print("\nKurtosis:")
+print(df.kurt())
+
+
+# STEP 14: OUTLIER DETECTION (IQR METHOD)
+
+# Use only numeric columns
+numeric_df = df.select_dtypes(include=np.number)
+
+Q1 = numeric_df.quantile(0.25)
+Q3 = numeric_df.quantile(0.75)
+
+IQR = Q3 - Q1
+
+outliers = ((numeric_df < (Q1 - 1.5 * IQR)) | 
+            (numeric_df > (Q3 + 1.5 * IQR)))
+
+print("\nOutliers (True = Outlier):")
+print(outliers)
+
+
+# STEP 15: DISTRIBUTION PLOT
+plt.figure(figsize=(8,5))
+sns.histplot(df['final_score'], kde=True)
+plt.title("Final Score Distribution")
 plt.show()

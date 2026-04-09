@@ -1,0 +1,62 @@
+DATA PREVIEW:
+   Math  Physics  Chemistry  Hours_Study
+0    85       78         92            5
+1    88       74         89            4
+2    90       88         94            6
+3    76       70         80            3
+4    95       92         96            7
+
+ STATISTICAL SUMMARY:
+            Math    Physics  Chemistry  Hours_Study
+count  10.000000  10.000000  10.000000    10.000000
+mean   81.600000  79.400000  84.500000     4.500000
+std    10.834103   9.179688  10.416333     1.581139
+min    60.000000  65.000000  68.000000     2.000000
+25%    76.500000  72.500000  76.250000     3.250000
+50%    83.500000  79.000000  88.500000     4.500000
+75%    89.500000  87.250000  92.750000     5.750000
+max    95.000000  92.000000  96.000000     7.000000
+
+ CENTRAL TENDENCY (Math Scores)
+Mean: 81.6
+Median: 83.5
+Mode: 60
+
+ DISPERSION
+Variance: 117.37777777777777
+Standard Deviation: 10.834102536794534
+
+ VARIANCE COMPARISON
+Sample Variance (n-1): 117.37777777777777
+Population Variance (n): 105.63999999999999
+
+ VARIABLES
+Independent Variable: Hours_Study     
+Dependent Variable: Math
+
+ QUARTILES
+25%: 76.5
+50% (Median): 83.5
+75%: 89.5
+
+ 5 NUMBER SUMMARY
+Min: 60
+Q1: 76.5
+Median: 83.5
+Q3: 89.5
+Max: 95
+
+ CORRELATION MATRIX
+                 Math  ...  Hours_Study
+Math         1.000000  ...     0.921049
+Physics      0.850871  ...     0.964562
+Chemistry    0.927472  ...     0.887153
+                   Math  ...  Hours_Study
+Math         117.377778  ...    15.777778
+Physics       84.622222  ...    14.000000
+Chemistry    104.666667  ...    14.611111
+Hours_Study   15.777778  ...     2.500000
+
+[4 rows x 4 columns]
+
+
